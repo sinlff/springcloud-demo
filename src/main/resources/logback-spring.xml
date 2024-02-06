@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="300 seconds" debug="false">
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+<!--    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>-->
+
+    <springProperty scope="context" name="profile" source="spring.profiles.active"/>
+    <springProperty scope="context" name="project" source="spring.application.name"/>
+    <springProperty scope="context" name="kafkaBootstrapServers" source="color.color-log.kafka-bootstrap-servers"/>
+    <property name="log.path" value="/data/logs" />
+
+    <property name="log.pattern.local" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%.6level]%caller{1}%msg%n%ex{30}" />
+<!--    <property name="log.pattern.skywalking" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%.6level][%thread][${profile}][${project}][%X{costTime}][%tid][logger=%C#%method#%line]%msg%n%ex{30}" />-->
+
+    <springProfile name="local,default,wsw">
+        <property name="log.pattern" value="${log.pattern.local}" />
+    </springProfile>
+
+<!--    <springProfile name="wswkafka,wsw1,wsw2,dev,test,uat,prd">-->
+<!--        <property name="log.pattern" value="${log.pattern.skywalking}" />-->
+<!--    </springProfile>-->
+
+    <!-- 控制台输出 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+<!--        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
+<!--            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">-->
+<!--                <pattern>${log.pattern}</pattern>-->
+<!--            </layout>-->
+<!--        </encoder>-->
+    </appender>
+
+    <!-- 系统日志输出 -->
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+<!--        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
+<!--            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">-->
+<!--                <pattern>${log.pattern}</pattern>-->
+<!--            </layout>-->
+<!--        </encoder>-->
+        <file>${log.path}/${project}-${profile}-info.log</file>
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${log.path}/${project}-${profile}-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 x天 -->
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 过滤的级别 -->
+            <level>INFO</level>
+            <!-- 匹配时的操作：接收（记录） -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 不匹配时的操作：拒绝（不记录） -->
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
+
+    <springProfile name="wswkafka,wsw1,wsw2,dev,test,uat,prd"><!--  根据需要改成自己需要的profile,多个环境用逗号隔开 -->
+        <appender name="kafkaAppender" class="cn.speedcolor.log.logback.appender.ColorKafkaAppender"><!-- com.github.danielwegener.logback.kafka.KafkaAppender -->
+            <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+<!--                <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">-->
+                        <pattern>${log.pattern}</pattern>
+<!--                </layout>-->
+            </encoder>
+            <topic>elk-logback</topic><!-- 由服务端设置分区数 -->
+            <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy" /><!-- 相同机器不会固定在1个分区 -->
+            <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" /><!-- kafka连接不上,不影响程序 -->
+            <appendTimestamp>true</appendTimestamp>
+            <producerConfig>bootstrap.servers=${kafkaBootstrapServers}</producerConfig><!-- kafka broker -->
+            <producerConfig>compression.type=gzip</producerConfig><!-- 压缩后发送 -->
+            <producerConfig>buffer.memory=8388608</producerConfig><!-- restrict the size of the buffered batches to 8MB (default is 32MB) -->
+            <producerConfig>max.block.ms=0</producerConfig><!-- kafka无法访问时,不阻塞,even if the producer buffer runs full, do not block the application but start to drop messages, 默认值60000 -->
+            <producerConfig>acks=1</producerConfig>
+            <producerConfig>linger.ms=1000</producerConfig><!-- wait up to 1000ms and collect log message before sending them as a batch,默认值0 -->
+            <!--        <appender-ref ref="fileAppender" /> 发送失败时,写到这-->
+        </appender>
+    </springProfile>
+
+    <logger name="org.reflections" level="warn" />
+    <logger name="com.baomidou.dynamic" level="info" />
+    <logger name="org.springframework" level="info" />
+    <logger name="org.springframework.boot" level="info" />
+    <logger name="org.springframework.cloud" level="info" />
+    <logger name="com.alibaba.nacos" level="info" />
+    <logger name="com.alibaba.cloud.nacos" level="info" />
+    <logger name="com.alibaba.cloud.sentinel" level="info" />
+    <logger name="org.apache.kafka.clients.NetworkClient" level="error" />
+
+    <logger name="cn.speedcolor.demo" level="info" />
+    <logger name="cn.speedcolor" level="info" />
+    <logger name="cn.speedcolor.mybatisplus.druid.filter" level="info" />
+
+    <root level="info">
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="fileAppender" />
+
+        <springProfile name="wswkafka,wsw1,wsw2,dev,test,uat,prd">
+            <appender-ref ref="kafkaAppender" />
+        </springProfile>
+    </root>
+</configuration>
