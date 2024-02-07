@@ -1,4 +1,4 @@
-package com.sinlff.server;
+package boot;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -6,27 +6,26 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
-//@EnableEurekaServer
+@Slf4j
 @SpringBootApplication(
         exclude = {
         }
 )
 @ComponentScan(
         basePackages = {
-                "com.sinlff.server"
+                "com.sinlff.server.mapper",
+                "com.sinlff.server.config"
         },
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
-                    "com.sinlff.server.config.MyMetaObjectHandler",
-                    "com.sinlff.server.config.MybatisPlusConfig"
+                    "com.sinlff.server.config.MyMetaObjectHandler"
                 })
         }
 )
-@Slf4j
-public class Application {
+public class ApplicationMapperTest {
 
     public static void main(String[] args){
-        SpringApplication.run(com.sinlff.server.Application.class, args);
-        log.info("Application启动完成");
+        SpringApplication.run(ApplicationMapperTest.class, args);
+        log.info("ApplicationTest启动完成");
     }
 }

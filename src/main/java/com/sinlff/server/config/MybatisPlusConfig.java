@@ -9,9 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 
-/**
- * mybatisplus 配置
- */
 @Configuration
 @Slf4j
 public class MybatisPlusConfig {
@@ -21,13 +18,11 @@ public class MybatisPlusConfig {
         log.info("MybatisPlusConfig初始化");
     }
 
-    /**
-     * 新的分页插件,一缓和二缓遵循mybatis的规则,
-     */
     @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+    public MybatisPlusInterceptor mybatisPlusInterceptor(MyInnerInterceptor myInnerInterceptor) {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.H2));
+        interceptor.addInnerInterceptor(myInnerInterceptor);
         return interceptor;
     }
 

@@ -1,26 +1,20 @@
 package com.sinlff.server.controller;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sinlff.server.domain.User;
 import com.sinlff.server.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
-/**
- * @description:<p>
- * 用户
- * @author: 王盛武 @date: 2021-09-06 14:01:14
- * @since 1.0.0
- * @see
- */
 @RestController
 @Slf4j
-public class TempController {
+public class UserController {
     @Autowired
     private UserMapper userMapper;
 
@@ -29,10 +23,14 @@ public class TempController {
         System.out.println("TempController初始化");
     }
 
-    @RequestMapping(value = "/test1")
-    public String test1() {
-        log.info("55555555555555");
-        return "OK";
+    @RequestMapping(value = "/userList")
+    public List<User> userList() {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id", 1);
+        List<User> userList=userMapper.selectList(queryWrapper);
+        log.info(JSONUtil.toJsonStr(userList));
+        log.info("111111");
+        return userList;
     }
 
     @RequestMapping(value = "/test2")
