@@ -1,0 +1,12 @@
+# spring-startup-analyzer官网 https://github.com/linyimin0812/spring-startup-analyzer/blob/main/README_ZH.md
+# https://github.com/linyimin0812/spring-boot-async-bean-demo/tree/main/src/main/resources
+<dependency>
+    <groupId>io.github.linyimin0812</groupId>
+    <artifactId>spring-async-bean-starter</artifactId>
+    <version>3.0.0</version>
+</dependency>
+<dependency>
+    <groupId>io.github.linyimin0812</groupId>
+    <artifactId>spring-profiler-starter</artifactId>
+    <version>3.0.0</version>
+</dependency>

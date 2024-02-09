@@ -94,6 +94,12 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.github.linyimin0812</groupId>
+            <artifactId>spring-async-bean-starter</artifactId>
+<!--            <version>3.0.0</version>-->
+            <version>2.0.7</version>
+        </dependency>
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>5.8.25</version>
@@ -173,6 +179,10 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
             <plugin><!-- 要将源码放上去，需要加入这个插件 -->

@@ -3,7 +3,7 @@ package com.sinlff.server.controller;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sinlff.server.domain.User;
-import com.sinlff.server.logger.LoggerService;
+import com.sinlff.server.service.LoggerService;
 import com.sinlff.server.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class UserController {
 
     @PostConstruct
     private void init(){
-        System.out.println("TempController初始化");
+        log.info("TempController初始化");
     }
 
     @RequestMapping(value = "/test/selectList")
@@ -69,8 +69,6 @@ public class UserController {
         level=level.toLowerCase();
         logger.setLevel(ch.qos.logback.classic.Level.toLevel(level));
         log.info("updateLogLevel packageName={},level={}", packageName,level);
-
-        loggerService.printLog();
         return logger.getLevel().toString();
     }
 

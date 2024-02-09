@@ -1,3 +1,7 @@
+# -Xms128m -XX:MetaspaceSize=128m -Xverify:none
+# -Xms128m -XX:MetaspaceSize=128m -Xverify:none -javaagent:C:\soft\spring-startup-analyzer\lib\spring-profiler-agent.jar
+# -Xms128m -XX:MetaspaceSize=128m -Xverify:none -javaagent:C:\soft\idea2023.3.3\xrebel\xrebel.jar
+# -Xms128m -XX:MetaspaceSize=128m -Xverify:none -javaagent:C:\soft\spring-startup-analyzer\lib\spring-profiler-agent.jar -javaagent:C:\soft\idea2023.3.3\xrebel\xrebel.jar
 server:
   port: 8100
 spring:
@@ -26,6 +30,15 @@ logging:
     com.sinllf.server: info
 #    com.sinllf.server.logger: warn
     com.sinllf.server.mapper: debug
+
+spring-startup-analyzer:
+  boost:
+    spring:
+      async:
+        bean-priority-load-enable: true
+        bean-names: tempController,loggerService
+        init-bean-thread-pool-core-size: 8
+        init-bean-thread-pool-max-size: 8
 
 
 
