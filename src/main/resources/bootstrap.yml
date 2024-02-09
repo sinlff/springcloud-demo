@@ -23,6 +23,8 @@ logging:
   level:
     root: info
     org.springframework: info
+    com.sinllf.server: info
+#    com.sinllf.server.logger: warn
     com.sinllf.server.mapper: debug
 
 

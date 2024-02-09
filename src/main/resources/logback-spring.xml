@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="300 seconds" debug="false">
+<configuration scan="true" scanPeriod="1000 seconds" debug="false">
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
 <!--    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>-->
 
