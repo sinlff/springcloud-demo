@@ -23,7 +23,7 @@ public class UserController {
 
     @PostConstruct
     private void init(){
-        log.info("TempController初始化");
+        log.info("UserController初始化");
     }
 
     @RequestMapping(value = "/test/selectList")

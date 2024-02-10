@@ -28,7 +28,6 @@ logging:
     root: info
     org.springframework: info
     com.sinllf.server: info
-#    com.sinllf.server.logger: warn
     com.sinllf.server.mapper: debug
 
 spring-startup-analyzer:
@@ -36,7 +35,7 @@ spring-startup-analyzer:
     spring:
       async:
         bean-priority-load-enable: true
-        bean-names: tempController,loggerService
+        bean-names: userController,loggerService,userMapper
         init-bean-thread-pool-core-size: 8
         init-bean-thread-pool-max-size: 8
 

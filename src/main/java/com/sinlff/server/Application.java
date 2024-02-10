@@ -1,12 +1,10 @@
 package com.sinlff.server;
 
-import com.sinlff.server.service.LoggerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.cloud.client.discovery.simple.SimpleDiscoveryClientAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
@@ -34,11 +32,6 @@ public class Application {
     public static void main(String[] args){
         SpringApplication.run(com.sinlff.server.Application.class, args);
         log.info("Application启动完成");
-    }
-
-    @Bean(initMethod = "init2")
-    public LoggerService loggerService(){
-        return new LoggerService();
     }
 
 }
