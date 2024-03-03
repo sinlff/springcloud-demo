@@ -90,9 +90,8 @@
     <logger name="com.alibaba.cloud.sentinel" level="info" />
     <logger name="org.apache.kafka.clients.NetworkClient" level="error" />
 
-    <logger name="cn.speedcolor.demo" level="info" />
-    <logger name="cn.speedcolor" level="info" />
-    <logger name="cn.speedcolor.mybatisplus.druid.filter" level="info" />
+    <logger name="com.sinllf.server" level="info" />
+    <logger name="com.sinllf.server.mapper" level="info" />
 
     <root level="info">
         <appender-ref ref="consoleAppender" />

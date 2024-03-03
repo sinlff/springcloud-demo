@@ -3,11 +3,13 @@ package com.sinlff.server.controller;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sinlff.server.domain.User;
-import com.sinlff.server.service.LoggerService;
 import com.sinlff.server.mapper.UserMapper;
+import com.sinlff.server.service.LoggerService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,13 +19,19 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RefreshScope
 public class UserController {
+    @Value("${wsw1:none}")
+    private String wsw1;
+    @Value("${debug}")
+    private boolean debug;
+
     @Autowired
     private UserMapper userMapper;
 
     @PostConstruct
     private void init(){
-        log.info("UserController初始化");
+        log.info("UserController初始化, wsw1={},debug={}", wsw1,debug);
     }
 
     @RequestMapping(value = "/test/selectList")
@@ -46,10 +54,10 @@ public class UserController {
     @Autowired private LoggerService loggerService;
     @RequestMapping(value = "/log/logTest")
     public String logTest() {
-        log.debug("UserController debug log");
-        log.info("UserController info log");
-        log.warn("UserController warn log");
-        log.error("UserController error log");
+        log.debug("logTest debug log");
+        log.info("logTest info log");
+        log.warn("logTest warn log");
+        log.error("logTest error log");
 
         loggerService.printLog();
         return "OK";
@@ -69,6 +77,11 @@ public class UserController {
         level=level.toLowerCase();
         logger.setLevel(ch.qos.logback.classic.Level.toLevel(level));
         log.info("updateLogLevel packageName={},level={}", packageName,level);
+
+        log.debug("updateLogLeve debug log");
+        log.info("updateLogLeve info log");
+        log.warn("updateLogLeve warn log");
+        log.error("updateLogLeve error log");
         return logger.getLevel().toString();
     }
 

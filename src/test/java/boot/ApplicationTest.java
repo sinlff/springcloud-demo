@@ -18,8 +18,7 @@ import org.springframework.context.annotation.FilterType;
         },
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
-                    "com.sinlff.server.config.MyMetaObjectHandler",
-                    "com.sinlff.server.config.MybatisPlusConfig"
+                    "com.sinlff.server.config.MyMetaObjectHandler"
                 })
         }
 )

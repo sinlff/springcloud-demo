@@ -3,12 +3,12 @@ package com.sinlff.server;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.cloud.client.discovery.simple.SimpleDiscoveryClientAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
 @Slf4j
+//@EnableDiscoveryClient
 @SpringBootApplication(
         exclude = {
                 SimpleDiscoveryClientAutoConfiguration.class
@@ -20,13 +20,10 @@ import org.springframework.context.annotation.FilterType;
         },
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
-//                    "com.sinlff.server.logger.*",
-                    "com.sinlff.server.config.MyMetaObjectHandler",
-                    "com.sinlff.server.config.MybatisPlusConfig"
+                    "com.sinlff.server.Application",
                 })
         }
 )
-@ConfigurationPropertiesScan
 public class Application {
 
     public static void main(String[] args){
