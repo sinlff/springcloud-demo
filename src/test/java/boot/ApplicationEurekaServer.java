@@ -1,18 +1,16 @@
-package com.sinlff.server;
+package boot;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
 @Slf4j
-@EnableEurekaClient
+@EnableEurekaServer
 @SpringBootApplication(
         exclude = {
-                EurekaClientAutoConfiguration.class
         }
 )
 @ComponentScan(
@@ -21,15 +19,18 @@ import org.springframework.context.annotation.FilterType;
         },
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
-//                    "com.sinlff.server.Application",
+                    "boot.ApplicationEurekaClient",
+                    "boot.ApplicationEurekaServer",
+                    "boot.ApplicationMapperTest",
+                    "boot.ApplicationTest"
                 })
         }
 )
-public class Application {
+public class ApplicationEurekaServer {
 
     public static void main(String[] args){
-        SpringApplication.run(com.sinlff.server.Application.class, args);
-        log.info("Application启动完成");
+        System.setProperty("spring.profiles.active=local2", "local2");
+        SpringApplication.run(ApplicationEurekaServer.class, args);
+        log.info("EnableEurekaServer启动完成");
     }
-
 }
