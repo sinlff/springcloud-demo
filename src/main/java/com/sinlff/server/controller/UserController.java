@@ -23,15 +23,14 @@ import java.util.List;
 public class UserController {
     @Value("${wsw1:none}")
     private String wsw1;
-    @Value("${debug}")
-    private boolean debug;
 
     @Autowired
     private UserMapper userMapper;
 
     @PostConstruct
     private void init(){
-        log.info("UserController初始化, wsw1={},debug={}", wsw1,debug);
+        log.info("UserController初始化, wsw1={}", wsw1);
+//        DiscoveryClient a;
     }
 
     @RequestMapping(value = "/test/selectList")

@@ -3,19 +3,11 @@
 # -Xms256m -Xmx256m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=256m -Xverify:none -javaagent:C:\soft\idea2023.3.3\xrebel\xrebel.jar
 # -Xms256m -Xmx256m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=256m -Xverify:none -javaagent:C:\soft\spring-startup-analyzer\lib\spring-profiler-agent.jar -javaagent:C:\soft\idea2023.3.3\xrebel\xrebel.jar
 #http://localhost:8848/nacos/#/configeditor?serverId=center&dataId=spring-cloud-demo&group=DEFAULT_GROUP&namespace=&edasAppName=&edasAppId=&searchDataId=&searchGroup=&pageSize=10&pageNo=1
-logging:
-  level:
-    root: info
-  com.alibaba.cloud.nacos: info
-  com.netflix.discovery: info
-
 server:
-  port: 8100
+  port: 8101
 spring:
-  profiles:
-    active: local
   application:
-    name: spring-cloud-demo
+    name: spring-cloud-demo-local
   cloud:
     nacos:
       discovery:
@@ -25,34 +17,25 @@ spring:
       config:
         refresh-enabled: true
         server-addr: localhost:8848
+        prefix: spring-cloud-demo-local
+        file-extension: yaml
         namespace: public
         group: DEFAULT_GROUP
-        file-extension: yaml
-  h2:
-    console:
-      enabled: true
-      path: /h2
-  datasource:
-    dynamic:
-      datasource:
-        master:
-          driver-class-name: org.h2.Driver
-          driverClassName: org.h2.Driver
-          url: jdbc:h2:~/test
-          username: sa
-          password:
-spring-startup-analyzer:
-  boost:
-    spring:
-      async:
-        bean-priority-load-enable: true
-        bean-names: userController,loggerService,userMapper
-        init-bean-thread-pool-core-size: 8
-        init-bean-thread-pool-max-size: 8
-
 eureka:
   instance:
     hostname: localhost
+    prefer-ip-address: true
+#    lease-renewal-interval-in-seconds: 5
+#    lease-expiration-duration-in-seconds: 10
+  client:
+    enabled: true
+    refresh:
+      enable: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      #defaultZone: http://localhost:8761/eureka
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
 
 

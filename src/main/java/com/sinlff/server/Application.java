@@ -3,16 +3,17 @@ package com.sinlff.server;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.simple.SimpleDiscoveryClientAutoConfiguration;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
 @Slf4j
 @EnableEurekaServer
+@EnableEurekaClient
 @SpringBootApplication(
         exclude = {
-                SimpleDiscoveryClientAutoConfiguration.class
+//                SimpleDiscoveryClientAutoConfiguration.class
         }
 )
 @ComponentScan(
@@ -21,7 +22,7 @@ import org.springframework.context.annotation.FilterType;
         },
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
-                    "com.sinlff.server.Application",
+//                    "com.sinlff.server.Application",
                 })
         }
 )
