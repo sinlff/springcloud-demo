@@ -18,6 +18,8 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+        # 关闭nacos注册中心
+        enabled: false
       config:
         refresh-enabled: true
         server-addr: localhost:8848
@@ -37,7 +39,6 @@ spring:
           url: jdbc:h2:~/test
           username: sa
           password:
-
 spring-startup-analyzer:
   boost:
     spring:
@@ -47,7 +48,9 @@ spring-startup-analyzer:
         init-bean-thread-pool-core-size: 8
         init-bean-thread-pool-max-size: 8
 
-
+eureka:
+  instance:
+    hostname: localhost
 
 
 
