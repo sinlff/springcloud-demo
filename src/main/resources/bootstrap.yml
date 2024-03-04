@@ -28,7 +28,7 @@ spring:
         namespace: public
         group: DEFAULT_GROUP
         file-extension: yaml
-  h2:
+  h2: # test.mv.db
     console:
       enabled: true
       path: /h2
